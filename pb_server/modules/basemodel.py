@@ -21,6 +21,24 @@ class userLogin(BaseModel):
     password:str
     verifycode:str
 
+class userAdd(BaseModel):
+    username:str
+    password:str
+    rules:list
+
+class userLoginDate(BaseModel):
+    login:int
+    create:int
+
+class userAddBase(BaseModel):
+    username:str
+    password:str
+    nickname:str
+    avatar:str
+    login_ip:str
+    date:userLoginDate
+    
+
 class dataBaseModel(BaseModel):
     page:int
     length:int
@@ -38,3 +56,12 @@ class deleteBaseModel(BaseModel):
 
 class collectionAdd(BaseModel):
     pass
+
+class applicationType(BaseModel):
+    name:str
+    space_size:int
+    memory_size:int
+    
+class applicationCreate(BaseModel):
+    name:str
+    

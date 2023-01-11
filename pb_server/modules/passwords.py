@@ -30,7 +30,7 @@ def generate_rand_str(
         rand_str += random.choice(charts)
     return rand_str
 
-def hast_password(context:str):
+def hash_password(context:str):
     hash_sha256 = hashlib.sha256()
     hash_sha256.update(context.encode("utf-8"))
     return hash_sha256.hexdigest()

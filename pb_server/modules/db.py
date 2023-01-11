@@ -23,11 +23,16 @@ class DB:
     def db_init(self):
         #数据库
         self.db_main = self.client_main.pidbid
-        # self.db_app = self.db_app_client.pidbid
         #验证码表
         self.dbt_verifycode = self.db_main["sys-verifycode"]
         # 应用设置表
         self.dbt_setting = self.db_main["sys-setting"]
+        # 用户表
+        self.dbt_user = self.db_main["sys-users"]
+        # 应用表
+        self.dbt_apps = self.db_main["sys-apps"]
+        # 应用基本设置表
+        self.dbt_apps_setting = self.db_main["sys-apps-setting"]
     
     def get_apps(self):
         pass

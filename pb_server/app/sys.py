@@ -13,8 +13,17 @@ from fastapi import APIRouter, Request
 
 from modules.db import DB
 from app.db.database import sys_database
+from app.user.user import user
+from app.application.application import sys_apps
 
 db = DB()
 sys_services = APIRouter()
+
 # 文档操作操作
-sys_services.include_router(sys_database,prefix="/database")
+sys_services.include_router(sys_database, prefix="/database")
+
+# 用户操作
+sys_services.include_router(user, prefix="/user")
+
+# 应用操作
+sys_services.include_router(sys_apps, prefix="/apps")
