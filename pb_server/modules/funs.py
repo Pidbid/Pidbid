@@ -13,9 +13,10 @@
 import json
 from modules.db import DB
 from bson.json_util import dumps
+from modules.config import CONFIG
 
 db = DB()
-
+config = CONFIG()
 
 def db_setting(config: str):
     return db.dbt_setting.find_one({"type": config})["data"]
@@ -36,7 +37,11 @@ def bson2json(data):
         for i in data:
             json_data.append(bson2json(i))
         return json_data
+    
     else:
         json_data = json.loads(dumps(data))
+        if "children" in data.keys():
+            json_data["children"] = bson2json(json_data["children"])
         json_data["_id"] = json_data["_id"]["$oid"]
         return json_data
+

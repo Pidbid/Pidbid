@@ -96,9 +96,8 @@ declare interface ThemeConfigState {
 // 用户信息
 declare interface ApplicationState<T=any>{
 	appid:string;
-	menuShow:Boolean;
 	functionList:Array<T>;
 	datebaseList:Array<T>;
-	menuList:Array<T>;
 	name:string;
+	[key: string]: T;
 }

@@ -1,5 +1,6 @@
 import { defineStore } from 'pinia';
-import { Local } from '/@/utils/storage';
+import { getAppInfo, getAppFuncs } from "/@/api/apps"
+import { Local } from '../utils/storage';
 
 /**
  * 当前操作的应用
@@ -7,42 +8,30 @@ import { Local } from '/@/utils/storage';
  */
 export const useApplications = defineStore('applications', {
     state: (): ApplicationState => ({
-        appid: "undefined",
-        name:"",
-        menuShow: false,
+        appid: "",
+        name: "",
         functionList: [],
         datebaseList: [],
-        menuList: []
+        appInfo: {},
+        appSetting: {}
     }),
     actions: {
-        async app_init(){
-            const current_app = Local.get("editApp")
-            if(current_app){
-                this.appid = current_app.appid
-                this.name = current_app.name
+        async appInit(){
+            if(Local.get("appid")){
+                this.appid = Local.get("appid")
             }
         },
-        async setMenuShow(show: Boolean) {
-            this.menuShow = show
+        async appInfoInit() {
+            const infoRes = await getAppInfo(this.appid)
+            this.appInfo = infoRes.data
         },
-        async setFunctionList(data: Array<any>) {
-            this.functionList = data
+        async appFuncsInit(appid: string) {
+            const funcRes = await getAppFuncs(appid)
+            this.functionList = funcRes.data
         },
-        async setDatabaseList(data: Array<any>) {
-            this.datebaseList = data
-        },
-        async setMenuList(data: Array<any>) {
-            this.menuList = data
-            // this.menuList.unshift()
-        },
-        async setAppid(appid: string) {
-            const menu_array = ["functions", "database", "trusteeship"]
+        async setAppid(appid:string){
             this.appid = appid
-            this.menuList.forEach((item, i) => {
-                if(i!==0){
-                    item.path = "/app/" + appid + "/" + menu_array[i-1]
-                }
-            })
+            Local.set("appid",appid)
         }
     },
 });

@@ -2,6 +2,7 @@ import { nextTick, defineAsyncComponent } from 'vue';
 import type { App } from 'vue';
 import * as svg from '@element-plus/icons-vue';
 import router from '/@/router/index';
+import { useRoute } from 'vue-router';
 import pinia from '/@/stores/index';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
@@ -166,6 +167,14 @@ export function handleOpenLink(val: RouteItem) {
 }
 
 /**
+ * 从路径获取appid
+ */
+export function getAppid(){
+	const route = useRoute()
+	return route.params.appid || null
+}
+
+/**
  * 统一批量导出
  * @method elSvg 导出全局注册 element plus svg 图标
  * @method useTitle 设置浏览器标题国际化
@@ -204,6 +213,9 @@ const other = {
 	handleOpenLink: (val: RouteItem) => {
 		handleOpenLink(val);
 	},
+	appidFromRoute:()=>{
+		return getAppid()
+	}
 };
 
 // 统一批量导出

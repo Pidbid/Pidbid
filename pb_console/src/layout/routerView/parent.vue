@@ -37,6 +37,7 @@ const state = reactive<ParentViewState>({
 	iframeRefreshKey: '', // iframe tagsview 右键菜单刷新时
 	keepAliveNameList: [],
 	iframeList: [],
+	currentAppid:"",//当前的appid
 });
 
 // 设置主界面切换动画
@@ -99,6 +100,7 @@ onUnmounted(() => {
 watch(
 	() => route.fullPath,
 	() => {
+		// console.log(router.getRoutes());
 		state.refreshRouterViewKey = decodeURI(route.fullPath);
 	},
 	{

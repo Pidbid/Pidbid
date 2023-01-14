@@ -15,7 +15,7 @@ import json
 class CONFIG:
     def __init__(self):
         self.path_init()
-        self.config_main = json.load(open(self.config_main_path, "r"))
+        self.config_main = json.load(open(self.config_main_path, "r",encoding="utf-8"))
         self.development = self.config_main["development"]
         self.config_init()
         self.main_init()

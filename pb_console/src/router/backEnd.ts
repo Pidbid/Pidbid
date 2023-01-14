@@ -14,7 +14,7 @@ import { useMenuApi } from '/@/api/menu/index';
 // 后端控制路由
 
 // 引入 api 请求接口
-const menuApi = useMenuApi();
+// const menuApi = useMenuApi();
 
 /**
  * 获取目录下的 .vue、.tsx 全部文件
@@ -42,7 +42,7 @@ export async function initBackEndControlRoutes() {
 	// https://gitee.com/lyt-top/vue-next-admin/issues/I5F1HP
 	await useUserInfo().setUserInfos();
 	// 获取路由菜单数据
-	const res = await getBackEndControlRoutes();
+	const res = await useMenuApi();
 	// 无登录权限时，添加判断
 	// https://gitee.com/lyt-top/vue-next-admin/issues/I64HVO
 	if (res.data.length <= 0) return Promise.resolve(true);
@@ -106,16 +106,11 @@ export async function setAddRoute() {
  * @description isRequestRoutes 为 true，则开启后端控制路由
  * @returns 返回后端路由菜单数据
  */
-export function getBackEndControlRoutes() {
-	// 模拟 admin 与 test
-	const stores = useUserInfo(pinia);
-	const { userInfos } = storeToRefs(stores);
-	const auth = userInfos.value.roles[0];
-	// 管理员 admin
-	if (auth === 'admin') return menuApi.getAdminMenu();
-	// 其它用户 test
-	else return menuApi.getTestMenu();
-}
+// export function useMenuApi()() {
+// 	// 模拟 admin 与 test
+// 	// 管理员 admin
+// 	return menuApi
+// }
 
 /**
  * 重新请求后端路由菜单接口
@@ -123,7 +118,7 @@ export function getBackEndControlRoutes() {
  * @description 路径：/src/views/system/menu/component/addMenu.vue
  */
 export async function setBackEndControlRefreshRoutes() {
-	await getBackEndControlRoutes();
+	await useMenuApi();
 }
 
 /**

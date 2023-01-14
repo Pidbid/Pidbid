@@ -28,7 +28,6 @@ async def database_data():
     collections = db.client_main.list_database_names()
     return rt(0,"success",collections)
 
-
 # 创建新的数据库
 @sys_database.post("/add")
 async def database_add(data: addBaseModel):

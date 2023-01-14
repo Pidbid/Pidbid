@@ -50,6 +50,7 @@ declare type ParentViewState<T = any> = {
 	iframeRefreshKey: string;
 	keepAliveNameList: string[];
 	iframeList: T[];
+	currentAppid:string;
 };
 
 // navBars link

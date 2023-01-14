@@ -132,14 +132,15 @@ const signInSuccess = (isNoPower: boolean | undefined) => {
 		let currentTimeInfo = currentTime.value;
 		// 登录成功，跳到转首页
 		// 如果是复制粘贴的路径，非首页/登录页，那么登录成功后重定向到对应的路径中
-		if (route.query?.redirect) {
-			router.push({
-				path: <string>route.query?.redirect,
-				query: Object.keys(<string>route.query?.params).length > 0 ? JSON.parse(<string>route.query?.params) : '',
-			});
-		} else {
-			router.push('/');
-		}
+		// if (route.query?.redirect) {
+		// 	router.push({
+		// 		path: <string>route.query?.redirect,
+		// 		query: Object.keys(<string>route.query?.params).length > 0 ? JSON.parse(<string>route.query?.params) : '',
+		// 	});
+		// } else {
+		// 	router.push('/');
+		// }
+		router.push('/');
 		// 登录成功提示
 		const signInText = '欢迎回来！';
 		ElMessage.success(`${currentTimeInfo}，${signInText}`);

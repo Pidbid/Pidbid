@@ -16,7 +16,7 @@
 				<SubItem :chil="val.children" />
 			</el-sub-menu>
 			<template v-else>
-				<el-menu-item :index="val.path" :key="val.path">
+				<el-menu-item :index="val.path" :key="val.path" :route="{name:val.name,params:{appid:appid}}">
 					<SvgIcon :name="val.meta.icon" />
 					<template #title v-if="!val.meta.isLink || (val.meta.isLink && val.meta.isIframe)">
 						<span>{{ val.meta.title }}</span>
@@ -36,10 +36,12 @@ import { useRoute, onBeforeRouteUpdate, RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { useThemeConfig } from '/@/stores/themeConfig';
 import other from '/@/utils/other';
+import { useApplications } from '/@/stores/application';
 
 // 引入组件
 const SubItem = defineAsyncComponent(() => import('/@/layout/navMenu/subItem.vue'));
-
+const storesApplication = useApplications()
+const {appid}=storeToRefs(storesApplication)
 // 定义父组件传过来的值
 const props = defineProps({
 	// 菜单列表

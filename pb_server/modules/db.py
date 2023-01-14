@@ -33,6 +33,12 @@ class DB:
         self.dbt_apps = self.db_main["sys-apps"]
         # 应用基本设置表
         self.dbt_apps_setting = self.db_main["sys-apps-setting"]
+        # 路径表
+        self.dbt_apps_route = self.db_main["sys-apps-route"]
+        # 整体基础配置表
+        self.dbt_config = self.db_main["sys-init"]
+        # 应用函数表
+        self.dbt_apps_function = self.db_main["sys-apps-function"]
     
     def get_apps(self):
         pass

@@ -14,7 +14,6 @@ from fastapi import FastAPI, Request
 from fastapi.templating import Jinja2Templates
 from fastapi.staticfiles import StaticFiles
 from fastapi.middleware.cors import CORSMiddleware
-
 from modules.config import CONFIG
 from modules.funs import db_setting
 from app.sys import sys_services

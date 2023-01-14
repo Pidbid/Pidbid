@@ -10,7 +10,7 @@
 '''
 
 # here put the import lib
-from pydantic import BaseModel
+from pydantic import BaseModel,conlist
 
 class config(BaseModel):
     host:str
@@ -64,4 +64,43 @@ class applicationType(BaseModel):
     
 class applicationCreate(BaseModel):
     name:str
+    
+class applicationInfo(BaseModel):
+    appid:str
+
+class applicationRoute(BaseModel):
+    appid:str
+    
+class initConfig(BaseModel):
+    mode:str
+    
+class applicationFunData(BaseModel):
+    appid:str
+    page:int
+    length:int
+
+class functionInfo(BaseModel):
+    """
+    获取云函数的信息
+    """
+    appid:str
+    functionid:str
+    
+class functionCreate(BaseModel):
+    """
+    云函数添加
+    """
+    id:str
+    appid:str
+    name:str
+    tag:list
+    description:str=""
+    type:str
+    
+class functionUpdate(BaseModel):
+    """
+    函数更新
+    """
+    functionid:str
+    data:dict
     

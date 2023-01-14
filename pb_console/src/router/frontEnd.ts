@@ -1,7 +1,7 @@
 import { RouteRecordRaw } from 'vue-router';
 import { storeToRefs } from 'pinia';
 import { formatTwoStageRoutes, formatFlatteningRoutes, router } from '/@/router/index';
-import { dynamicRoutes, notFoundAndNoPower,applicationRouters } from '/@/router/route';
+import { dynamicRoutes, notFoundAndNoPower } from '/@/router/route';
 import pinia from '/@/stores/index';
 import { Session } from '/@/utils/storage';
 import { useUserInfo } from '/@/stores/userInfo';
@@ -12,6 +12,7 @@ import { useApplications } from '../stores/application';
 
 // 前端控制路由
 
+// console.log(dynamicRoutes[0].children);
 /**
  * 前端控制路由：初始化方法，防止刷新时路由丢失
  * @method  NextLoading 界面 loading 动画开始执行
@@ -121,8 +122,6 @@ export function setFilterMenuAndCacheTagsViewRoutes() {
 	const storesRoutesList = useRoutesList(pinia);
 	const { userInfos } = storeToRefs(stores);
 	storesRoutesList.setRoutesList(setFilterHasRolesMenu(dynamicRoutes[0].children, userInfos.value.roles));
-	// storesRoutesList.setRoutesAppList(setFilterHasRolesMenu(applicationRouters[0].children, userInfos.value.roles));
-	useApplications().setMenuList(setFilterHasRolesMenu(applicationRouters[0].children, userInfos.value.roles));
 	setCacheTagsViewRoutes();
 }
 

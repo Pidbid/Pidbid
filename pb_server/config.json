@@ -18,5 +18,101 @@
     "token_salt": "@^4_00wedv**pi)+(!w1@rwi=d*3sdf@4l=ie*=g-u$s8jevmj*z2h",
     "init": {
         "user_avatar": "https://pidbid.oss-cn-hangzhou.aliyuncs.com/avatar/avatar.png"
-    }
+    },
+    "route_backend": [
+        {
+            "path": "/app/:appid",
+            "name": "dashboard",
+            "component": "home/index",
+            "meta": {
+                "title": "首页",
+                "isLink": "",
+                "isHide": false,
+                "isKeepAlive": true,
+                "isAffix": true,
+                "isIframe": false,
+                "roles": ["admin"],
+                "icon": "iconfont icon-shouye"
+            }
+        },
+        {
+            "path": "/config/:appid",
+            "name": "config",
+            "component": "app_config/index",
+            "meta": {
+                "title": "配置",
+                "isLink": "",
+                "isHide": false,
+                "isKeepAlive": true,
+                "isAffix": false,
+                "isIframe": false,
+                "roles": ["admin"],
+                "icon": "ele-Edit"
+            }
+        },
+        {
+            "path": "/function/:appid",
+            "name": "function",
+            "component": "funcs/index",
+            "meta": {
+                "title": "云函数",
+                "isLink": "",
+                "isHide": false,
+                "isKeepAlive": true,
+                "isAffix": false,
+                "isIframe": false,
+                "roles": ["admin"],
+                "icon": "ele-Connection"
+            },
+            "children": [
+                {
+                    "path": "/function/:appid/:funcid",
+                    "name": "functionEdit",
+                    "component": "funcs/index",
+                    "meta": {
+                        "title": "云函数编辑",
+                        "isLink": "",
+                        "isHide": true,
+                        "isKeepAlive": true,
+                        "isAffix": false,
+                        "isIframe": false,
+                        "roles": ["admin"],
+                        "icon": "ele-Edit"
+                    }
+                }
+            ]
+        },
+        {
+            "path": "/database/:appid",
+            "name": "database",
+            "component": "func/index",
+            "meta": {
+                "title": "数据库",
+                "isLink": "",
+                "isHide": false,
+                "isKeepAlive": true,
+                "isAffix": false,
+                "isIframe": false,
+                "roles": ["admin"],
+                "icon": "fa fa-database"
+            }
+        }
+    ],
+    "route_fake":[
+        {
+            "path": "/app",
+            "name": "dashboard",
+            "component": "home/index",
+            "meta": {
+                "title": "首页",
+                "isLink": "",
+                "isHide": false,
+                "isKeepAlive": true,
+                "isAffix": true,
+                "isIframe": false,
+                "roles": ["admin"],
+                "icon": "iconfont icon-shouye"
+            }
+        }
+    ]
 }

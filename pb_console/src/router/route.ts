@@ -40,15 +40,15 @@ declare module 'vue-router' {
 export const dynamicRoutes: Array<RouteRecordRaw> = [
 	{
 		path: '/',
-		name: '/',
+		name: 'app',
 		component: () => import('/@/layout/index.vue'),
-		redirect: '/home',
+		redirect: '/',
 		meta: {
 			isKeepAlive: true,
 		},
 		children: [
 			{
-				path: '/home',
+				path: '/app/:appid',
 				name: 'home',
 				component: () => import('/@/views/home/index.vue'),
 				meta: {
@@ -63,96 +63,96 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 				},
 			},
 			{
-				path: '/app',
-				name: 'control',
-				component: () => import('/@/views/control/index.vue'),
+				path: '/config/:appid',
+				name: "appConfig",
+				component: () => import('/@/views/app_config/index.vue'),
 				meta: {
-					title: '应用',
+					title: '应用配置',
 					isLink: '',
 					isHide: false,
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
 					roles: ['admin', 'common'],
-					icon: 'ele-Menu',
+					icon: 'ele-Edit',
 				}
 			},
 			{
-				path: '/apps',
-				name: 'app',
-				component: () => import('/@/views/routerView/parent.vue'),
+				path: '/functions/:appid',
+				name: 'functions',
+				component: () => import('/@/views/funcs/index.vue'),
 				meta: {
-					title: '应用hide',
+					title: '函数',
 					isLink: '',
-					isHide: true,
+					isHide: false,
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
 					roles: ['admin', 'common'],
-					icon: 'ele-Menu',
+					icon: 'ele-Connection',
 				},
 				children: [
 					{
-						path: '/app',
-						name: 'appFunction',
-						component: () => import('/@/views/funcs/index.vue'),
+						path: '/functions/:appid/edit/:tagsViewName',
+						name: 'functionsEdit',
+						component: () => import('/@/views/funcEdit/index.vue'),
 						meta: {
-							title: '应用',
+							title: ':appid',
 							isLink: '',
-							isHide: false,
+							isHide: true,
 							isKeepAlive: true,
 							isAffix: false,
 							isIframe: false,
-							roles: ['admin'],
-							icon: 'iconfont icon-caidan',
-						},
-					},
-					{
-						path: '/app/:appid/functions',
-						name: 'appFunction',
-						component: () => import('/@/views/funcs/index.vue'),
-						meta: {
-							title: '函数',
-							isLink: '',
-							isHide: false,
-							isKeepAlive: true,
-							isAffix: false,
-							isIframe: false,
-							roles: ['admin'],
-							icon: 'iconfont icon-caidan',
-						},
-					},
-					{
-						path: '/app/:appid/database',
-						name: 'appDatabase',
-						component: () => import('/@/views/funcs/index.vue'),
-						meta: {
-							title: '数据库',
-							isLink: '',
-							isHide: false,
-							isKeepAlive: true,
-							isAffix: false,
-							isIframe: false,
-							roles: ['admin'],
-							icon: 'iconfont icon-caidan',
-						},
-					},
-					{
-						path: '/app/:appid/trusteeship',
-						name: 'appTrusteeship',
-						component: () => import('/@/views/trusteeship/index.vue'),
-						meta: {
-							title: '托管',
-							isLink: '',
-							isHide: false,
-							isKeepAlive: true,
-							isAffix: false,
-							isIframe: false,
-							roles: ['admin'],
-							icon: 'iconfont icon-caidan',
+							roles: ['admin', 'common'],
+							icon: 'ele-Connection',
 						},
 					}
 				]
+			},
+			{
+				path: '/route/:appid',
+				name: 'route',
+				component: () => import('/@/views/route/index.vue'),
+				meta: {
+					title: '路径',
+					isLink: '',
+					isHide: false,
+					isKeepAlive: true,
+					isAffix: false,
+					isIframe: false,
+					roles: ['admin', 'common'],
+					icon: 'ele-Connection',
+				},
+			},
+			{
+				path: '/database/:appid',
+				name: 'database',
+				component: () => import('/@/views/test/test.vue'),
+				meta: {
+					title: '数据库',
+					isLink: '',
+					isHide: false,
+					isKeepAlive: true,
+					isAffix: false,
+					isIframe: false,
+					roles: ['admin', 'common'],
+					icon: 'fa fa-database',
+				},
+			},
+			{
+				path: '/trusteeship/:appid',
+				name: 'appTrusteeship',
+				component: () => import('/@/views/trusteeship/index.vue'),
+				meta: {
+					title: '托管',
+					isLink: '',
+					isHide: false,
+					isKeepAlive: true,
+					isAffix: false,
+					isIframe: false,
+					roles: ['admin', 'common'],
+					icon: 'fa fa-codepen',
+				},
 			},
 			{
 				path: '/test',
@@ -177,7 +177,7 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 				meta: {
 					title: '系统设置',
 					isLink: '',
-					isHide: false,
+					isHide: true,
 					isKeepAlive: true,
 					isAffix: false,
 					isIframe: false,
@@ -267,82 +267,6 @@ export const dynamicRoutes: Array<RouteRecordRaw> = [
 ];
 
 /**
- * 应用的Routers
- */
-export const applicationRouters: Array<RouteRecordRaw> = [
-	{
-		path: '/:appid',
-		name: '/:appid',
-		component: () => import('/@/layout/index.vue'),
-		redirect: '/home',
-		meta: {
-			isKeepAlive: true,
-		},
-		children: [
-			{
-                path: '/app',
-                name: 'appFunction',
-                component: () => import('/@/views/funcs/index.vue'),
-                meta: {
-                    title: '应用概览',
-                    isLink: '',
-                    isHide: false,
-                    isKeepAlive: true,
-                    isAffix: false,
-                    isIframe: false,
-                    roles: ['admin'],
-                    icon: 'fa fa-list-ul',
-                },
-            },
-			{
-				path: '/:appid/functions',
-				name: 'functions',
-				component: () => import('/@/views/funs/index.vue'),
-				meta: {
-					title: '函数',
-					isLink: '',
-					isHide: false,
-					isKeepAlive: true,
-					isAffix: false,
-					isIframe: false,
-					roles: ['admin', 'common'],
-					icon: 'fa fa-cubes',
-				},
-			},
-			{
-				path: '/:appid/database',
-				name: 'database',
-				component: () => import('/@/views/test/test.vue'),
-				meta: {
-					title: '数据库',
-					isLink: '',
-					isHide: false,
-					isKeepAlive: true,
-					isAffix: false,
-					isIframe: false,
-					roles: ['admin', 'common'],
-					icon: 'fa fa-database',
-				},
-			},
-			{
-				path: '/:appid/site',
-				name: 'site',
-				component: () => import('/@/views/test/test.vue'),
-				meta: {
-					title: '托管',
-					isLink: '',
-					isHide: false,
-					isKeepAlive: true,
-					isAffix: false,
-					isIframe: false,
-					roles: ['admin', 'common'],
-					icon: 'fa fa-codepen',
-				},
-			}
-		]
-	}]
-
-/**
  * 定义404、401界面
  * @link 参考：https://next.router.vuejs.org/zh/guide/essentials/history-mode.html#netlify
  */
@@ -382,4 +306,14 @@ export const staticRoutes: Array<RouteRecordRaw> = [
 			title: '登录',
 		},
 	},
+	{
+		path: '/',
+		name: 'dashbroad',
+		component: () => import('/@/views/app_console/index.vue'),
+		meta: {
+			title: '应用',
+		},
+	},
 ];
+
+

@@ -1,17 +1,13 @@
 <template>
-	<el-main class="layout-main" :style="isFixedHeader ? `height: calc(100% - ${setMainHeight})` : `height: calc(100% - ${setMainHeight})`">
-		<div style="display: flex;flex-direction: row;height:100%;">
-			<div v-if="menuShow" class="appmenu">
-				<Vertical :menu-list="menuList"></Vertical>
-			</div>
-			<div class="" style="width:100%;">
-				<el-scrollbar ref="layoutMainScrollbarRef" class="layout-main-scroll layout-backtop-header-fixed"
-					wrap-class="layout-main-scroll" view-class="layout-main-scroll">
-					<LayoutParentView />
-					<LayoutFooter v-if="isFooter" />
-				</el-scrollbar>
-				<el-backtop :target="setBacktopClass" />
-			</div>
+	<el-main class="layout-main"
+		:style="isFixedHeader ? `height: calc(100% - ${setMainHeight})` : `height: calc(100% - ${setMainHeight})`">
+		<div class="" style="width:100%;">
+			<el-scrollbar ref="layoutMainScrollbarRef" class="layout-main-scroll layout-backtop-header-fixed"
+				wrap-class="layout-main-scroll" view-class="layout-main-scroll">
+				<LayoutParentView />
+				<LayoutFooter v-if="isFooter" />
+			</el-scrollbar>
+			<el-backtop :target="setBacktopClass" />
 		</div>
 	</el-main>
 </template>
@@ -29,7 +25,6 @@ import { useApplications } from "/@/stores/application"
 // 引入组件
 const LayoutParentView = defineAsyncComponent(() => import('/@/layout/routerView/parent.vue'));
 const LayoutFooter = defineAsyncComponent(() => import('/@/layout/footer/index.vue'));
-const Vertical = defineAsyncComponent(() => import('/@/layout/navMenu/vertical.vue'));
 
 
 // 定义变量内容
@@ -41,7 +36,6 @@ const { themeConfig } = storeToRefs(storesThemeConfig);
 const { isTagsViewCurrenFull } = storeToRefs(storesTagsViewRoutes);
 // 应用是否显示菜单
 const storesApplication = useApplications()
-const { menuShow,menuList } = storeToRefs(storesApplication)
 // 设置 footer 显示/隐藏
 const isFooter = computed(() => {
 	return themeConfig.value.isFooter && !route.meta.isIframe;

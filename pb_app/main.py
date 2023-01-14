@@ -10,30 +10,87 @@
 
 # here put the import lib
 import uvicorn
-from fastapi import FastAPI, Request
-from fastapi.templating import Jinja2Templates
-from fastapi.staticfiles import StaticFiles
+from fastapi import APIRouter, FastAPI, Request
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.staticfiles import StaticFiles
+from fastapi.templating import Jinja2Templates
+from functools import wraps
+from modules.config import CONFIG
+from modules.db import DB
 
+
+db = DB()
 app = FastAPI()
+config = CONFIG()
 templates = Jinja2Templates(directory="templates")
 static = StaticFiles(directory="static")
 
 # 跨域配置
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=config.cors_origins,
-    allow_credentials=config.cors_cookies,
-    allow_methods=config.cors_methods,
-    allow_headers=config.cors_headers
+    allow_origins=db.app_cors["origins"],
+    allow_credentials=db.app_cors["cookies"],
+    allow_methods=db.app_cors["methods"],
+    allow_headers=db.app_cors["headers"],
 )
 
-# console 主页
-@app.route("/")
-async def index_template(request: Request):
-    return templates.TemplateResponse("index.html",{"request":request})
+# route defined and include
+app_routes = db.get_routes()
+app_funcs = db.get_funcs()
+# print([i for i in app_routes])
+app_routes = [i for i in app_routes]
+
+route_name = ""
+parent_route_name = ""
+route_method = ""
+route_path = ""
+
+# define routes
+for route in app_routes:
+    if route["type"] != 'route':
+        continue
+    # route_name = "{}_route_{}".format(config.appid, route["routeid"])
+    route_name = "{}_route_{}".format(config.appid, route["routeid"])
+    exec_code = "{} = APIRouter()".format(route_name)
+    exec(exec_code, globals())
+
+# function route binding
+for route in app_routes:
+    parent_route_name = "{}_route_{}".format(config.appid, route["parentid"])
+    fun_method = route["method"]
+    fun_route = route["route"]
+    if len(route["funcs"]) != 0:
+        func_code = ""
+        for f in app_funcs:
+            if f["id"] in route["funcs"]:
+                func_code = f["code"]
+        incode = """def pidbid_route(f):\n    @{}.{}('{}')\n    @wraps(f)\n    async def decorated(*args, **kwargs):\n        return await f(*args, **kwargs)\n    return decorated
+        """.format(parent_route_name,fun_method,fun_route)
+        exec_bind_code = "{}\n\n{}".format(incode,func_code)
+        # print(exec_bind_code)
+        exec(exec_bind_code, globals())    
+        
+
+# include routes
+for route in app_routes:
+    if route["type"] != 'route':
+        continue
+    route_name = "{}_route_{}".format(config.appid, route["routeid"])
+    exec_code = ""
+    if route["root_path"]:
+        exec_code = "app.include_router({},prefix='{}')".format(
+            route_name, route["route"]
+        )
+        # print(exec_code)
+    else:
+        parent_route_name = "{}_route_{}".format(config.appid, route["parentid"])
+        exec_code = "{}.include_router({},prefix='{}')".format(
+            parent_route_name, route_name, route["route"]
+        )
+        # print(exec_code)
+    exec(exec_code, globals())
 
 
-
-if __name__ == "__main__":
-    uvicorn.run(app,host=config.host, port=config.port)
+# if __name__ == "__main__":
+#     print(globals())
+#     uvicorn.run(app, host=config.host, port=config.port)
